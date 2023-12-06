@@ -7,6 +7,10 @@ Given /the following movies exist/ do |movies_table|
   # pending "Fill in this step in movie_steps.rb"
 end
 
+Given /restric to movies with (.*) or (.*) ratings / do |first,second|
+  Movie.all_ratings.include?first and Movie.all_ratings.include?second
+end
+
 Then /(.*) seed movies should exist/ do | n_seeds |
   expect(Movie.count).to eq n_seeds.to_i
 end
@@ -19,7 +23,7 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
   # pending "Fill in this step in movie_steps.rb"
-  validacion = e1.release_date < e1.release_date 
+  expect(page).to have_content(e1,e2)  
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -58,9 +62,13 @@ Then /^debug javascript$/ do
   1
 end
 
-When /I check the "(.*)" checkbox and the "(.*)" checkbox/ do 
-  
+When /I check the following ratings: (.*)/ do |ratings|
+  ratings_separated = ratings.split(",")
 end
+
+Then /I should see movies with following movies: (.*) / do |ratings|
+  Movie.with_ratings(ratings_separated)
+end 
 
 Then /complete the rest of of this scenario/ do
   # This shows you what a basic cucumber scenario looks like.

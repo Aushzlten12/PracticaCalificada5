@@ -23,8 +23,8 @@ Background: movies have been added to database
   Then 10 seed movies should exist
 
 Scenario: restrict to movies with "PG" or "R" ratings
-  When I check the "PG" checkbox and the "R" checkbox  
-  Then I should see movies with "PG","R" rating
+  When I check the following ratings:PG,R   
+  Then I should see movies with the following movies:PG,R
   # enter step(s) to check the "PG" and "R" checkboxes
   # enter step(s) to uncheck all other checkboxes
   # enter step to "submit" the search form on the homepage
@@ -33,3 +33,5 @@ Scenario: restrict to movies with "PG" or "R" ratings
 
 Scenario: all ratings selected
   # your steps here
+  When I check the following ratings:PG,R,PG-13,G
+  Then I should see the following movies:PG,R,PG-13,G

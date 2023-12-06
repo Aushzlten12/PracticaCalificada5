@@ -101,5 +101,53 @@ En la primera ejecucion de `bundle exec cucumber` contamos con 14 eliminando los
 0m0.289s
 ```
 
-1. **Completa el escenario restrict to movies with PG or R ratings in filter_movie_list.feature. Puedes utilizar las definiciones de pasos existentes en web_steps.rb para marcar y desmarcar las casillas correspondientes, enviar el formulario y comprobar si aparecen las películas correctas (y, lo que es igualmente importante, no aparecen las películas con clasificaciones no seleccionadas).**
+- **Completa el escenario restrict to movies with PG or R ratings in filter_movie_list.feature. Puedes utilizar las definiciones de pasos existentes en web_steps.rb para marcar y desmarcar las casillas correspondientes, enviar el formulario y comprobar si aparecen las películas correctas (y, lo que es igualmente importante, no aparecen las películas con clasificaciones no seleccionadas).**
 
+```
+Scenario: restrict to movies with "PG" or "R" ratings
+  When I check the following ratings: G,PG,R  
+  Then I should see movies with "PG","R" rating
+```
+Creo el escenario para solo mostrar las peliculas de rating "PG" y "R". Necesito crear pasos en ruby
+
+```ruby
+Given /restric to movies with (.*) or (.*) ratings / do |first,second|
+  Movie.all_ratings.include?first and Movie.all_ratings.include?second
+end
+```
+Verificamos que dichos ratings existan en el metodo del modelo.
+```ruby
+When /I check the following ratings: (.*)/ do |ratings|
+  ratings_separated = ratings.split(",")
+end
+
+Then /I should see movies with following movies: (.*) / do |ratings|
+  Movie.with_ratings(ratings_separated)
+end 
+```
+Agregamos otro escenario
+
+```
+Scenario: all ratings selected
+  # your steps here
+  When I check the following ratings:PG,R,PG-13,G
+  Then I should see the following movies:PG,R,PG-13,G
+```
+
+- **Dado que los escenarios en sort_movie_list.feature implican clasificación, necesitarás la capacidad de tener pasos que prueben si una película aparece antes que otra en la lista de salida. Cree una definición de paso que coincida con un paso como:  Then I should see "Aladdin" before "Amelie"** 
+
+```
+Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
+  #  ensure that that e1 occurs before e2.
+  #  page.body is the entire content of the page as a string.
+  # pending "Fill in this step in movie_steps.rb"
+  expect(page).to have_content(e1,e2)  
+end
+```
+## Tercer grupo de Preguntas
+
+1. **Describa uno o más patrones de diseño que podrían ser aplicados al diseño del sistema.**
+   Podria usar el patron de diseño state ya que hay ciertos comportamientos diferentes de la aplicacion tanto al marcar checkbox la tabla que se muestra es diferente dependiendo de que checkbox esten marcados
+   Tambien creo que se podria usar el patron de diseño Bridge al tener filas sin embargo cada fila tiene su rating, podria ser una subclase `fila G` o `fila PG` para hacerlo mas especifico
+2. **Dado un sistema simple que responde a una historia de usuario concreta, analice y elija un paradigma de diseño adecuado**
+  
