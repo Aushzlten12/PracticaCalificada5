@@ -1,0 +1,30 @@
+<h1>All Movies</h1>
+
+<%= form_tag movies_path, method: :get, id: 'ratings_form' do %>
+  <% @all_ratings.each do |rating| %>
+    <div class="form-check form-check-inline">
+      <%= label_tag "ratings[#{rating}]", rating, class: 'form-check-label' %>
+      <%= check_box_tag "ratings[#{rating}]", "1", @ratings_to_show.include?(rating), class: 'form-check-input' %>
+    </div>
+  <% end %>
+  <%= submit_tag 'Refresh', id: 'rating_submit', class: 'btn btn-primary' %>  
+<% end %>
+
+<%= link_to 'Add Movie', new_movie_path, :class => 'btn btn-primary' %>
+
+<div id="movies">
+  <div class="row">
+    <div class="col-8">Movie Title</div>
+    <div class="col-2">Rating</div>
+    <div class="col-2">Release Date</div>
+  </div>
+  <%- @movies.each do |movie| %>
+    <div class="row <%=movie.rating%>">
+      <div class="col-8"> <%= link_to movie.title, movie_path(movie), data: { method: 'get' } %> </div>
+      <div class="col-2"> <%= movie.rating %></div>
+      <div class="col-2"> <%= movie.release_date.strftime('%F') %> </div>
+    </div>
+  <% end %>
+</div>
+
+
