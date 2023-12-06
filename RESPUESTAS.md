@@ -150,4 +150,4 @@ end
    Podria usar el patron de diseño state ya que hay ciertos comportamientos diferentes de la aplicacion tanto al marcar checkbox la tabla que se muestra es diferente dependiendo de que checkbox esten marcados
    Tambien creo que se podria usar el patron de diseño Bridge al tener filas sin embargo cada fila tiene su rating, podria ser una subclase `fila G` o `fila PG` para hacerlo mas especifico
 2. **Dado un sistema simple que responde a una historia de usuario concreta, analice y elija un paradigma de diseño adecuado**
-  
+  Al responder a una historia de usuario esta va a requerir que el sistema cambie cierto comportamiento para satisfacer a la necesidad del usuario al hacer eso, podria usar un paradigma declarativo, ya que al usuario le interesa el resultado del sistema.
